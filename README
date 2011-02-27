@@ -1,0 +1,23 @@
+Renderer Project
+by Nick Pascucci
+
+This is a simple renderer project written from scratch in Java.
+I've been working on this on and off since October 2011, and it's 
+developed a fairly straightforward feature set. It currently supports
+3D meshes composed of triangular faces with transparency and both ambient
+and diffuse lighting. There are no fancy shaders as of yet, but maybe
+in the future... Right now, I'm primarily working on object manipulation
+and creation, and once that becomes workable I'll focus on eye candy a 
+little more.
+
+Some background on the project: I started this renderer as a final project
+for my computer graphics course at the Colorado College. It had a few bugs
+which I've since fixed, but it was overall a great success! I'm still
+interested in improving on it, so I'll occasionally clean up a bug here and
+there and add new features. 
+
+Feel free to use the source under the included license. Please, don't plagiarize
+my work; especially not for academic projects. It's just not cool.
+
+Cheers,
+Nick Pascucci
