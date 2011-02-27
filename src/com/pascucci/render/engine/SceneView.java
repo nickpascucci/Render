@@ -51,7 +51,7 @@ public class SceneView extends JPanel implements MouseListener,
 				for(int z = -cubesPerSide * spacing; z < cubesPerSide * spacing; z+=spacing){
 					Entity3D cube = Utils3D.cube(50, x, y, z);
 					cube.setName("Cube " + x + ", " + y + ", " + z);
-					cube.setColor(Color.WHITE);
+					cube.setColor(new Color(255, 255, 255, 180));
 					cube.setBorderColor(new Color(0, 0, 0, 0));
 					scene.addEntity(cube);
 				}

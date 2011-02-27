@@ -29,7 +29,7 @@ public class BSPTree {
 	 * 
 	 * @return
 	 */
-	public Iterator iterator() {
+	public Iterator<Entity3D> iterator() {
 		return null;
 	}
 }
