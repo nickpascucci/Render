@@ -1,0 +1,106 @@
+package com.pascucci.render;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+/**
+ * Provides a means of hidden face removal by sorting objects by their z values.
+ * I know, it's not a true z-buffer, but hey, I couldn't think of another name.
+ * @author Nick Pascucci <nick@kestrelrobotics.com>
+ */
+
+public class ZBuffer{
+    private ArrayList<Face> sortedFaces;
+
+    public ZBuffer(){
+        sortedFaces = new ArrayList<Face>();
+    }
+
+    public ZBuffer(ArrayList<Entity3D> list){
+        sortedFaces = new ArrayList<Face>();
+        for(Entity3D e : list){
+            sortedFaces.addAll(e.getFaces());
+        }
+        sortByZValue();
+    }
+
+    public void sortByZValue(){
+        quickSort(sortedFaces, 0, sortedFaces.size()-1);
+    }
+
+    int recursionDepth = 0;
+    /**
+     * Sorts the array list using quicksort by average z value, largest first.
+     * @param collection
+     * @param left
+     * @param right
+     */
+    public void quickSort(ArrayList collection, int left, int right){
+        recursionDepth++;
+        //System.out.println("Sorting array list. Left: " + left + " Right: " + right + "Depth: " + recursionDepth);
+        if(left >= right) return;
+        int i = left;
+        int j = right;
+        double pivot = ((Face) collection.get((i+j)/2)).zavg;
+        while(i <= j){
+            while(((Face) collection.get(i)).zavg < pivot){ //Notice the inversion here!
+                i++;
+            }
+            while(((Face) collection.get(j)).zavg > pivot){ //We want this to be sorted from greatest to least.
+                j--;
+            }
+            if(i <= j){
+                swap(collection, i, j);
+                i++;
+                j--;
+            }
+        }
+        if(left < i){
+            quickSort(collection, left, i-1);
+        }
+        if(right > i){
+            quickSort(collection, i, right);
+        }
+    }
+
+    /**
+     * Swaps two entities in an ArrayList
+     * @param collection
+     * @param i
+     * @param j
+     */
+    public void swap(ArrayList collection, int i, int j){
+        //Gets the object at i, and replaces it with the object at j
+        Object iObj = collection.set(i, collection.get(j));
+        //Then puts that object back in at position j.
+        collection.set(j, iObj);
+    }
+
+    /**
+     * Gets the sorted ArrayList.
+     * @return
+     */
+    public ArrayList<Face> getSortedFaces(){
+        return sortedFaces;
+    }
+
+    /**
+     * Adds an entity to the list. The list must then be sorted by the user.
+     * @param e
+     */
+    public void addEntity(Entity3D e){
+        sortedFaces.addAll(e.getFaces());
+    }
+
+    /**
+     * Removes an entity from the list. This operation preserves order.
+     * @param e
+     */
+    public void removeEntity(Entity3D e){
+        sortedFaces.removeAll(e.getFaces());
+    }
+
+    public void clear(){
+        sortedFaces.clear();
+    }
+}

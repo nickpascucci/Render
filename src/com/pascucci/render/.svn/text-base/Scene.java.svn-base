@@ -1,0 +1,76 @@
+package com.pascucci.render;
+
+import java.util.ArrayList;
+
+/**
+ * Contains data on entities contained in a 3D scene, including a ZBuffer which
+ * it maintains automatically.
+ * @author Nick Pascucci <nick@kestrelrobotics.com>
+ */
+
+public class Scene {
+    private BSPTree sceneTree;
+    private ArrayList<Entity3D> entities;
+    private Point3D light;
+    private Camera view;
+    private ZBuffer buffer;
+    public double ambient; //Ambient lighting
+
+    public Scene(){
+        entities = new ArrayList<Entity3D>();
+        view = new Camera(0, 0, 800);
+        buffer = new ZBuffer();
+        light = new Point3D(0, 0, 800);
+        ambient = .1;
+    }
+
+    public ArrayList<Entity3D> getEntities(){
+        return entities;
+    }
+
+    public Camera getCamera(){
+        return view;
+    }
+
+    public Point3D getLight(){
+        return light;
+    }
+
+    public void setLight(Point3D l){
+        light = l;
+    }
+
+    public BSPTree getBSPTree(){
+        if(sceneTree == null){
+            sceneTree = BSPTree.partitionScene(this);
+        }
+        return sceneTree;
+    }
+
+    public void setBSPTree(BSPTree tree){
+        this.sceneTree = tree;
+    }
+
+    public void addEntity(Entity3D entity){
+        entities.add(entity);
+        buffer.addEntity(entity);
+    }
+
+    public void removeEntity(Entity3D entity){
+        entities.remove(entity);
+        buffer.removeEntity(entity);
+    }
+
+    public void removeAll(){
+        entities.clear();
+        buffer.clear();
+    }
+
+    public ZBuffer getBuffer(){
+        return buffer;
+    }
+
+    public void setCamera(Camera c){
+        this.view = c;
+    }
+}
