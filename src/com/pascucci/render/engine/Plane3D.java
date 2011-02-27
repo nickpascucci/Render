@@ -2,7 +2,7 @@ package com.pascucci.render.engine;
 
 /**
  * Represents a plane in 3D space, as characterized by the equation ax + by + cz
- * + d = 0.
+ * + d = 0. This element is not yet renderable.
  * 
  * @author Nick Pascucci <nick@kestrelrobotics.com>
  */

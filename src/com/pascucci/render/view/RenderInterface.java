@@ -40,6 +40,7 @@ import com.pascucci.render.utils.STLLoader;
  * @author Nick Pascucci <nick@kestrelrobotics.com>
  */
 
+@SuppressWarnings("serial")
 public class RenderInterface extends JFrame implements ActionListener,
 		TreeSelectionListener, ChangeListener {
 
@@ -68,10 +69,6 @@ public class RenderInterface extends JFrame implements ActionListener,
 	private JMenuItem translate;
 	private JMenuItem rotate;
 	private JMenuItem scale;
-
-	// Help
-	private JMenuItem about;
-	private JMenuItem help;
 
 	// Scene Tree
 	private JScrollPane scrollPane;
@@ -187,17 +184,6 @@ public class RenderInterface extends JFrame implements ActionListener,
 		scale.addActionListener(this);
 
 		top.add(entityMenu);
-
-		/*
-		 * Create help menu
-		 */
-
-		JMenu helpMenu = new JMenu("Help");
-		helpMenu.setForeground(menuItemColor);
-		about = new JMenuItem("About");
-		// about.addActionListener(this);
-		helpMenu.add(about);
-		top.add(helpMenu);
 	}
 
 	/**
@@ -206,8 +192,6 @@ public class RenderInterface extends JFrame implements ActionListener,
 	private void createTree() {
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Scene");
 		DefaultMutableTreeNode entity;
-		DefaultMutableTreeNode face;
-		DefaultMutableTreeNode vertex;
 		Scene scene = view.getScene();
 		ArrayList<Entity3D> entities = scene.getEntities();
 		for (Entity3D e : entities) {
@@ -253,6 +237,7 @@ public class RenderInterface extends JFrame implements ActionListener,
 	 * 
 	 * @param e
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source.equals(quit)) {
@@ -379,6 +364,7 @@ public class RenderInterface extends JFrame implements ActionListener,
 	/*
 	 * Listens for changes in the selected item in the tree.
 	 */
+	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 				.getLastSelectedPathComponent();
@@ -461,6 +447,7 @@ public class RenderInterface extends JFrame implements ActionListener,
 	 * 
 	 * @param e
 	 */
+	@Override
 	public void stateChanged(ChangeEvent e) {
 		STLLoader loader = (STLLoader) e.getSource();
 		addEntityToTree(loader.getEntity());

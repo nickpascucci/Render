@@ -13,7 +13,9 @@ public class Scene {
 	private ArrayList<Entity3D> entities;
 	private Point3D light;
 	private ZBuffer buffer;
+	private Camera camera;
 	public double ambient; // Ambient lighting
+	private double rotX, rotY, rotZ; //Stores scene rotations
 
 	/**
 	 * Creates a new scene with no objects and default lighting settings.
@@ -81,5 +83,19 @@ public class Scene {
 	 */
 	public ZBuffer getBuffer() {
 		return buffer;
+	}
+
+	/**
+	 * @param camera the camera to set
+	 */
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+
+	/**
+	 * @return the camera
+	 */
+	public Camera getCamera() {
+		return camera;
 	}
 }
