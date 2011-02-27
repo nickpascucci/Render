@@ -1,18 +1,13 @@
 package com.pascucci.render.engine;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -28,16 +23,12 @@ import com.pascucci.render.utils.Utils3D;
 public class SceneView extends JPanel implements MouseListener,
 		MouseWheelListener, MouseMotionListener {
 
-	// View variables
-	private double scalefactor = 1;
-	private boolean wireframe = false;
-	private boolean orthogonal = false;
-	private boolean debug = false;
-
 	// Scene
 	private Scene scene;
 	private Entity3D selectedEntity;
 	private Face selectedFace;
+	private Renderer renderer;
+	private boolean debug;
 
 	// View rotation parameters
 	private double RADIANS_PER_PIXEL = Math.PI / 360;
@@ -49,6 +40,7 @@ public class SceneView extends JPanel implements MouseListener,
 		Camera camera = new Camera(0, 0, 800);
 		// Testing
 
+		renderer = new Renderer();
 		scene = new Scene();
 		scene.setCamera(camera);
 		int cubesPerSide = 2;
@@ -58,7 +50,9 @@ public class SceneView extends JPanel implements MouseListener,
 			for(int y = -cubesPerSide * spacing; y < cubesPerSide * spacing; y+=spacing){
 				for(int z = -cubesPerSide * spacing; z < cubesPerSide * spacing; z+=spacing){
 					Entity3D cube = Utils3D.cube(50, x, y, z);
+					cube.setName("Cube " + x + ", " + y + ", " + z);
 					cube.setColor(Color.WHITE);
+					cube.setBorderColor(new Color(0, 0, 0, 0));
 					scene.addEntity(cube);
 				}
 			}
@@ -72,11 +66,12 @@ public class SceneView extends JPanel implements MouseListener,
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		Renderer renderer = new Renderer();
 		renderer.renderScene(g2, scene, getWidth(), getHeight());
 	}
 
-	
+	public Renderer getRenderer(){
+		return renderer;
+	}
 
 	public void setScene(Scene s) {
 		scene = s;
@@ -84,14 +79,6 @@ public class SceneView extends JPanel implements MouseListener,
 
 	public Scene getScene() {
 		return scene;
-	}
-
-	public void setWireframe(boolean on) {
-		this.wireframe = on;
-	}
-
-	public void setOrthogonal(boolean on) {
-		this.orthogonal = on;
 	}
 
 	public void setSelectedEntity(Entity3D e) {
@@ -181,11 +168,13 @@ public class SceneView extends JPanel implements MouseListener,
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int clicks = e.getWheelRotation();
+		double scalefactor = renderer.getScale();
 		if (scalefactor >= 1) {
 			scalefactor -= clicks;
 		}
 		if (scalefactor < 1)
 			scalefactor = 1.0;
+		renderer.setScale(scalefactor);
 		repaint();
 	}
 }

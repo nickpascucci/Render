@@ -58,6 +58,12 @@ public class Entity3D {
 			f.setColor(c);
 		}
 	}
+	
+	public void setBorderColor(Color c){
+		for(Face f: faces){
+			f.setBorderColor(c);
+		}
+	}
 
 	@Override
 	public String toString() {

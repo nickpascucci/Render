@@ -243,16 +243,16 @@ public class RenderInterface extends JFrame implements ActionListener,
 		if (source.equals(quit)) {
 			System.exit(0);
 		} else if (source.equals(solid)) {
-			view.setWireframe(false);
+			view.getRenderer().setWireframe(false);
 			view.repaint();
 		} else if (source.equals(wireframe)) {
-			view.setWireframe(true);
+			view.getRenderer().setWireframe(true);
 			view.repaint();
 		} else if (source.equals(orthogonal)) {
-			view.setOrthogonal(true);
+			view.getRenderer().setOrthogonal(true);
 			view.repaint();
 		} else if (source.equals(perspective)) {
-			view.setOrthogonal(false);
+			view.getRenderer().setOrthogonal(false);
 			view.repaint();
 		} else if (source.equals(stlImport)) {
 			int userChoice = fc.showOpenDialog(this);
