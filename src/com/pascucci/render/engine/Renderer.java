@@ -71,9 +71,13 @@ public class Renderer {
 	public void renderScene(Graphics2D g2, Scene scene, int width, int height) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setColor(Color.BLACK);
+		g2.fillRect(0, 0, width, height);
 		// Put the origin in the middle, flip axes
 		g2.translate(width / 2, height / 2);
 		g2.scale(scalefactor, -scalefactor);
+		
+		
 
 		Camera camera = scene.getCamera();
 
